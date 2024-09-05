@@ -1,29 +1,30 @@
-import Card from './Card'
-import Container from '../Shared/Container'
-import Heading from '../Shared/Heading'
-import LoadingSpinner from '../Shared/LoadingSpinner'
-import { useQuery } from '@tanstack/react-query'
-import useAxiosCommon from '../../hooks/useAxiosCommon'
-import { useSearchParams } from 'react-router-dom'
+import Card from './Card';
+import Container from '../Shared/Container';
+import Heading from '../Shared/Heading';
+import LoadingSpinner from '../Shared/LoadingSpinner';
+import { useQuery } from '@tanstack/react-query';
+import useAxiosCommon from '../../hooks/useAxiosCommon';
+import { useSearchParams } from 'react-router-dom';
 
 const Rooms = () => {
   const axiosCommon = useAxiosCommon();
 
-  const { params, setparams } = useSearchParams();
-  const cetegory = params.get('category')
-    // 
+  // useSearchParams থেকে params এবং setSearchParams সঠিকভাবে রিটার্ন করুন
+  // eslint-disable-next-line no-unused-vars
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get('category'); // এখানে params পরিবর্তে searchParams
+
+  console.log(category);
+
   const { data: rooms = [], isLoading } = useQuery({
-    queryKey: ['rooms'],
+    queryKey: ['rooms', category],
     queryFn: async () => {
-      const { data } = await axiosCommon.get('/rooms')
+      const { data } = await axiosCommon.get(`/rooms?category=${category}`);
       return data;
     },
+  });
 
-  })
-
-
-
-  if (isLoading) return <LoadingSpinner />
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <Container>
@@ -43,7 +44,7 @@ const Rooms = () => {
         </div>
       )}
     </Container>
-  )
-}
+  );
+};
 
-export default Rooms
+export default Rooms;
