@@ -6,7 +6,7 @@ import useAuth from '../../../hooks/useAuth'
 import avatarImg from '../../../assets/images/placeholder.jpg'
 
 const Navbar = () => {
-  const { user, logOut } = useAuth()
+  const { user, logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -69,6 +69,12 @@ const Navbar = () => {
 
                     {user ? (
                       <>
+                        <Link
+                          to='/dashboard'
+                          className='block  px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                        >
+                          Dashboard
+                        </Link>
                         <div
                           onClick={logOut}
                           className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'

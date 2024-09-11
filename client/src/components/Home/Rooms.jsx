@@ -9,12 +9,12 @@ import { useSearchParams } from 'react-router-dom';
 const Rooms = () => {
   const axiosCommon = useAxiosCommon();
 
-  // useSearchParams থেকে params এবং setSearchParams সঠিকভাবে রিটার্ন করুন
-  // eslint-disable-next-line no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
-  const category = searchParams.get('category'); // এখানে params পরিবর্তে searchParams
 
-  console.log(category);
+  // eslint-disable-next-line no-unused-vars
+  const [ params, setParams ] = useSearchParams();
+  const category = params.get('category');
+
+  // console.log(category);
 
   const { data: rooms = [], isLoading } = useQuery({
     queryKey: ['rooms', category],

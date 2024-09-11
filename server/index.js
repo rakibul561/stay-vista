@@ -70,7 +70,7 @@ async function run() {
         })
         .send({ success: true })
     })
-    // Logout
+    // Logou
     app.get('/logout', async (req, res) => {
       try {
         res
@@ -90,11 +90,11 @@ async function run() {
 
     // get all rooms 
     app.get('/rooms', async (req, res) => {
-      const cetegory = req.query.cetegory
+      const category = req.query.category;
       let query = {}
-      if (cetegory && cetegory !== 'null') 
-        query = { cetegory }
-      
+      if (category && category !== 'null') query = { category }
+
+
       const result = await roomCollection.find(query).toArray()
       res.send(result)
     })

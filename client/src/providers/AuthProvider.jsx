@@ -46,7 +46,11 @@ const AuthProvider = ({ children }) => {
     await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
       withCredentials: true,
     })
+    console.log(import.meta.env.VITE_API_URL);
+
+
     return signOut(auth)
+    
   }
 
   const updateUserProfile = (name, photo) => {
