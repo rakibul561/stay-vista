@@ -2,9 +2,12 @@ import { useState } from "react";
 import AddRoomForm from "../../../components/Form/AddRoomForm";
 import useAuth from "../../../hooks/useAuth";
 import { imageUpload } from "../../../api/utilits";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useMutation } from 'react-query';
 
 
 const AddRoom = () => {
+    const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
     const [imagepreview, setImagePreview] = useState();
     const [imageText, imageSetText] = useState('upload image');
@@ -19,6 +22,16 @@ const AddRoom = () => {
         setDates(item.selection)
     }
 
+
+    // data send in database 
+    const { mutateAsync } = useMutation({
+        mutationFn: async (roomData) => {
+            const { data } = await axiosSecure.post('/room', roomData)
+            return data
+        }
+    })
+
+
     //   form submited
     const handleSubmit = async e => {
         e.preventDefault();
@@ -32,7 +45,7 @@ const AddRoom = () => {
         const guest = form.total_guest.value
         const bathrooms = form.bathrooms.value
         const description = form.description.value
-        const bedrooms = form.target.value
+        const bedrooms = form.bedrooms.value;
         const image = form.image.files[0]
         const host = {
 
@@ -58,7 +71,8 @@ const AddRoom = () => {
                 image: image_url
             }
 
-            console.log(roomData)
+            await mutateAsync(roomData);
+            console.log('Room added successfully');
 
 
         } catch (err) {
@@ -68,14 +82,14 @@ const AddRoom = () => {
     }
 
     // handle image change 
-    const handleImage = image =>{
+    const handleImage = image => {
         setImagePreview(URL.createObjectURL(image))
         imageSetText(image.name)
     }
 
     return (
         <div>
-            
+
             <AddRoomForm
                 dates={dates}
                 handleDates={handleDates}

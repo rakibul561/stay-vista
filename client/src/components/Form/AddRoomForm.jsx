@@ -83,6 +83,7 @@ const AddRoomForm = ({ dates, handleDates, handleSubmit, setImagePreview, imagep
                                                 handleImage(e.target.files[0])}
                                             name='image'
                                             id='image'
+                                            v
                                             accept='image/*'
                                             hidden
                                         />
